@@ -205,6 +205,8 @@ src = src_iterator.get_next()
 tgt = tgt_iterator.get_next()
 ```
 
+Here we use the bucketing strategy to make sure batches contain sequences of similar length which reduces the amount of padding and makes the training more efficient. For large training sets, we could also use the hard contraint of only batching sentences of the same length.
+
 You can test by printing the first example:
 
 ```python
@@ -215,7 +217,7 @@ with tf.Session() as sess:
   print(sess.run(src))
 ```
 
-*During development you can reuse this session creation code to print tensor values.*
+*During development, you can reuse this session creation code to print tensor values.*
 
 #### Step 2: Noise model
 
