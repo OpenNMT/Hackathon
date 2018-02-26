@@ -374,7 +374,7 @@ This step completes *Section 2.3* and *2.4* of the paper by denoising noisy inpu
 
 ```python
 decoder = onmt.decoders.AttentionalRNNDecoder(
-    2, hidden_size, bridge=onmt.utils.CopyBridge())
+    2, hidden_size, bridge=onmt.layers.CopyBridge())
 ```
 
 You can then implement the `denoise` function:
