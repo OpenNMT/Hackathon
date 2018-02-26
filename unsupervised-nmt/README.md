@@ -348,7 +348,7 @@ def add_noise_and_encode(ids, sequence_length, embedding, reuse=None):
 
 * [`tf.nn.embedding_lookup`](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
 * [`tf.variable_scope`](https://www.tensorflow.org/api_docs/python/tf/variable_scope)
-* [`onmt.encoders.encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
+* [`onmt.encoders.Encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
 
 At this point, you have everything you need to implement to encoding part showed in *Figure 2*:
 
@@ -403,7 +403,7 @@ def denoise(x, embedding, encoder_outputs, generator, reuse=None):
 * [`tf.nn.embedding_lookup`](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
 * [`tf.variable_scope`](https://www.tensorflow.org/api_docs/python/tf/variable_scope)
 * [`cross_entropy_sequence_loss`](http://opennmt.net/OpenNMT-tf/package/opennmt.utils.losses.html#opennmt.utils.losses.cross_entropy_sequence_loss)
-* [decoder interface](http://opennmt.net/OpenNMT-tf/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.decode)
+* [`onmt.decoders.Decoder.decode`](http://opennmt.net/OpenNMT-tf/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.decode)
 
 and build the `generator` for source and target:
 
@@ -724,8 +724,8 @@ def decode(encoder_output):
 
 **Related resources:**
 
-* [`onmt.encoders.encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
-* [`onmt.decoders.decoder.dynamic_decode_and_search`](http://opennmt.net/OpenNMT-tf/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.dynamic_decode_and_search)
+* [`onmt.encoders.Encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
+* [`onmt.decoders.Decoder.dynamic_decode_and_search`](http://opennmt.net/OpenNMT-tf/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.dynamic_decode_and_search)
 
 These functions can then be called like this to build the actual translation:
 
