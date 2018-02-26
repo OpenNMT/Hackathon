@@ -205,7 +205,7 @@ src = src_iterator.get_next()
 tgt = tgt_iterator.get_next()
 ```
 
-Here we use the bucketing strategy to make sure batches contain sequences of similar length which reduces the amount of padding and makes the training more efficient. For large training sets, we could also use the hard contraint of only batching sentences of the same length.
+Here we use the bucketing strategy to make sure batches contain sequences of similar length which reduces the amount of padding and makes the training more efficient. For large training sets, we could also use the hard constraint of only batching sentences of the same length.
 
 You can test by printing the first example:
 
