@@ -322,7 +322,7 @@ def add_noise_and_encode(ids, sequence_length, embedding, reuse=None):
 
 * [`tf.nn.embedding_lookup`](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
 * [`tf.variable_scope`](https://www.tensorflow.org/api_docs/python/tf/variable_scope)
-* [encoder interface](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
+* [`onmt.encoders.encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
 
 At this point, you have everything you need to implement to encoding part showed in *Figure 2*:
 
@@ -556,4 +556,189 @@ with tf.train.MonitoredTrainingSession(checkpoint_dir=args.model_dir) as sess:
       print("{} - l_d = {}".format(step, _l_d))
     i += 1
     sys.stdout.flush()
+```
+
+### Inference
+
+Inference is not only required for testing the model performance but is also used as part of the training: after one training iteration, the complete monolingual corpus must be translated and used as input to the next training iteration.
+
+This part is simpler and only requires to build the encoder-decoder model with the same dimensions and variable scoping.
+
+#### Step 0: Base file
+
+You can start with this header:
+
+```python
+import argparse
+
+import tensorflow as tf
+import opennmt as onmt
+
+parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument("--model_dir", default="model",
+                    help="Checkpoint directory.")
+
+args = parser.parse_args()
+```
+
+#### Step 1: Reading data
+
+Let's define the script interface by defining additional command line arguments:
+
+```python
+parser.add_argument("--src", required=True,
+                    help="Source file.")
+parser.add_argument("--tgt", required=True,
+                    help="Target file.")
+parser.add_argument("--src_vocab", required=True,
+                    help="Source vocabulary.")
+parser.add_argument("--tgt_vocab", required=True,
+                    help="Target vocabulary.")
+parser.add_argument("--direction", required=True, type=int,
+                    help="1 = translation source, 2 = translate target.")
+
+if args.direction == 1:
+  src_file, tgt_file = args.src, args.tgt
+  src_vocab_file, tgt_vocab_file = args.src_vocab, args.tgt_vocab
+else:
+  src_file, tgt_file = args.tgt, args.src
+  src_vocab_file, tgt_vocab_file = args.tgt_vocab, args.src_vocab
+```
+
+Here, we choose to set both the source and target file and add a `direction` flag to select from which file to translate.
+
+Based on the input pipeline implemented in the training phase, this time we propose to build the dataset iterator. This should be a textbook usage of the [`tf.data.Dataset`](https://www.tensorflow.org/api_docs/python/tf/data/Dataset) API.
+
+```python
+def load_data(input_file, input_vocab):
+  """Returns an iterator over the input file.
+
+  Args:
+    input_file: The input text file.
+    input_vocab: The input vocabulary.
+
+  Returns:
+    A dataset iterator.
+  """
+  # FIXME
+  raise NotImplementedError()
+```
+
+Batching should be simpler than during the training, see [`tf.data.Dataset.padded_batch`](https://www.tensorflow.org/api_docs/python/tf/data/Dataset#padded_batch).
+
+Then, the iterator can be used:
+
+```python
+from opennmt.utils.misc import count_lines
+
+tgt_vocab_size = count_lines(tgt_vocab_file) + 1
+src_vocab_size = count_lines(src_vocab_file) + 1
+src_vocab = tf.contrib.lookup.index_table_from_file(
+    src_vocab_file,
+    vocab_size=src_vocab_size - 1,
+    num_oov_buckets=1)
+
+with tf.device("cpu:0"):
+  src_iterator = load_data(src_file, src_vocab)
+
+src = src_iterator.get_next()
+```
+
+#### Step 2: Rebuilding the model
+
+In this step, we need to define the same model that was used during the training, including variable scoping:
+
+```python
+hidden_size = 512
+encoder = onmt.encoders.BidirectionalRNNEncoder(2, hidden_size)
+decoder = onmt.decoders.AttentionalRNNDecoder(
+    2, hidden_size, bridge=onmt.layers.CopyBridge())
+
+with tf.variable_scope("src" if args.direction == 1 else "tgt"):
+  src_emb = tf.get_variable("embedding", shape=[src_vocab_size, 300])
+  src_gen = tf.layers.Dense(src_vocab_size)
+  src_gen.build([None, hidden_size])
+
+with tf.variable_scope("tgt" if args.direction == 1 else "src"):
+  tgt_emb = tf.get_variable("embedding", shape=[tgt_vocab_size, 300])
+  tgt_gen = tf.layers.Dense(tgt_vocab_size)
+  tgt_gen.build([None, hidden_size])
+```
+
+**Note:** Larger TensorFlow project usually do not handle inference this way. For example OpenNMT-tf shares training, inference, and evaluation code but reads from a [`mode`](https://www.tensorflow.org/api_docs/python/tf/estimator/ModeKeys) variable to implement behavior specific to each phase. The `mode` argument will be **required for encoding and decoding** to disable dropout in the next step.
+
+#### Step 3: Encoding and decoding
+
+Encoding and decoding is basically a method call on the encoder and decoder object (including beam search!). Make sure to use the same variable scope that you used during the training phase.
+
+```python
+from opennmt import constants
+
+def encode():
+  """Encodes src.
+
+  Returns:
+    A tuple (encoder output, encoder state, sequence length).
+  """
+  # FIXME
+  raise NotImplementedError()
+
+def decode(encoder_output):
+  """Dynamically decodes from the encoder output.
+
+  Args:
+    encoder_output: The output of encode().
+
+  Returns:
+    A tuple with: the decoded word ids and the length of each decoded sequence.
+  """
+  # FIXME
+  raise NotImplementedError()
+```
+
+**Related resources:**
+
+* [`onmt.encoders.encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
+* [`onmt.decoders.decoder.dynamic_decode_and_search`](http://opennmt.net/OpenNMT-tf/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.dynamic_decode_and_search)
+
+These functions can then be called like this to build the actual translation:
+
+```python
+encoder_output = encode()
+sampled_ids, sampled_length = decode(encoder_output)
+
+tgt_vocab_rev = tf.contrib.lookup.index_to_string_table_from_file(
+  tgt_vocab_file,
+  vocab_size=tgt_vocab_size - 1,
+  default_value=constants.UNKNOWN_TOKEN)
+
+tokens = tgt_vocab_rev.lookup(tf.cast(sampled_ids, tf.int64))
+length = sampled_length
+```
+
+#### Step 4: Loading and translating
+
+Finally, the inference script can be conclude with the code that restores variables and run the translation:
+
+```python
+from opennmt.utils.misc import print_bytes
+
+saver = tf.train.Saver()
+checkpoint_path = tf.train.latest_checkpoint(args.model_dir)
+
+def session_init_op(_scaffold, sess):
+  saver.restore(sess, checkpoint_path)
+  tf.logging.info("Restored model from %s", checkpoint_path)
+
+scaffold = tf.train.Scaffold(init_fn=session_init_op)
+session_creator = tf.train.ChiefSessionCreator(scaffold=scaffold)
+
+with tf.train.MonitoredSession(session_creator=session_creator) as sess:
+  sess.run(src_iterator.initializer)
+  while not sess.should_stop():
+    _tokens, _length = sess.run([tokens, length])
+    for b in range(_tokens.shape[0]):
+      pred_toks = _tokens[b][0][:_length[b][0] - 1]
+      pred_sent = b" ".join(pred_toks)
+      print_bytes(pred_sent)
 ```
