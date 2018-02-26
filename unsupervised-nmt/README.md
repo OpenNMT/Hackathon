@@ -1,3 +1,5 @@
+*Owner: Guillaume Klein (guillaume.klein (at) opennmt.net)*
+
 # Unsupervised NMT with TensorFlow and OpenNMT-tf
 
 We propose you to implement [*Unsupervised Machine Translation Using Monolingual Corpora Only*](https://arxiv.org/abs/1711.00043) (G. Lample et al. 2017) using [TensorFlow](https://www.tensorflow.org/) and [OpenNMT-tf](https://github.com/OpenNMT/OpenNMT-tf). While the project might take more than one day to complete, the goal of this session is to:
