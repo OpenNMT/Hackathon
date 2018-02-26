@@ -33,7 +33,7 @@ The data are available at:
 * [`unsupervised-nmt-enfr.tar.bz2`](https://s3.amazonaws.com/opennmt-trainingdata/unsupervised-nmt-enfr.tar.bz2) (2.2 GB)
 * [`unsupervised-nmt-enfr-dev.tar.bz2`](https://s3.amazonaws.com/opennmt-trainingdata/unsupervised-nmt-enfr-dev.tar.bz2) (2.2 MB)
 
-To get started, we recommend downloading the `dev` which contains a small training set with 10K sentences.
+To get started, we recommend downloading the `dev` version which contains a small training set with 10K sentences.
 
 Both packages contain the vocabulary files and a first translation of the training data using [an unsupervised word-by-word translation model](https://github.com/jsenellart/papers/tree/master/WordTranslationWithoutParallelData)\* as described in the paper. The full data additionally contains pretrained word embeddings using [fastText](https://github.com/facebookresearch/fastText).
 
