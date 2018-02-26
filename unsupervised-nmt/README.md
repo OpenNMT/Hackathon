@@ -10,6 +10,28 @@ We propose you to implement [*Unsupervised Machine Translation Using Monolingual
 
 The guide is a step-by-step implementation with some functions left unimplemented for the curious reader. The completed code is available in the `ref/` directory.
 
+## Table of contents
+
+* [Requirements](#requirements)
+* [Data](#data)
+* [Step-by-step tutorial](#step-by-step-tutorial)
+   * [Training](#training)
+      * [Step 0: Base file](#step-0-base-file)
+      * [Step 1: Reading the data](#step-1-reading-the-data)
+      * [Step 2: Noise model](#step-2-noise-model)
+      * [Step 3: Creating embeddings](#step-3-creating-embeddings)
+      * [Step 4: Encoding noisy inputs](#step-4-encoding-noisy-inputs)
+      * [Step 5: Denoising noisy encoding](#step-5-denoising-noisy-encoding)
+      * [Step 6: Discriminating encodings](#step-6-discriminating-encodings)
+      * [Step 7: Optimization and training loop](#step-7-optimization-and-training-loop)
+   * [Inference](#inference)
+      * [Step 0: Base file](#step-0-base-file-1)
+      * [Step 1: Reading data](#step-1-reading-data)
+      * [Step 2: Rebuilding the model](#step-2-rebuilding-the-model)
+      * [Step 3: Encoding and decoding](#step-3-encoding-and-decoding)
+      * [Step 4: Loading and translating](#step-4-loading-and-translating)
+   * [Complete training flow](#complete-training-flow)
+
 ## Requirements
 
 * `git`
