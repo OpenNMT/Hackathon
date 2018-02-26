@@ -622,13 +622,6 @@ parser.add_argument("--tgt_vocab", required=True,
                     help="Target vocabulary.")
 parser.add_argument("--direction", required=True, type=int,
                     help="1 = translation source, 2 = translate target.")
-
-if args.direction == 1:
-  src_file, tgt_file = args.src, args.tgt
-  src_vocab_file, tgt_vocab_file = args.src_vocab, args.tgt_vocab
-else:
-  src_file, tgt_file = args.tgt, args.src
-  src_vocab_file, tgt_vocab_file = args.tgt_vocab, args.src_vocab
 ```
 
 Here, we choose to set both the source and target file and add a `direction` flag to select from which file to translate.
@@ -656,6 +649,13 @@ Then, the iterator can be used:
 
 ```python
 from opennmt.utils.misc import count_lines
+
+if args.direction == 1:
+  src_file, tgt_file = args.src, args.tgt
+  src_vocab_file, tgt_vocab_file = args.src_vocab, args.tgt_vocab
+else:
+  src_file, tgt_file = args.tgt, args.src
+  src_vocab_file, tgt_vocab_file = args.tgt_vocab, args.src_vocab
 
 tgt_vocab_size = count_lines(tgt_vocab_file) + 1
 src_vocab_size = count_lines(src_vocab_file) + 1
@@ -744,7 +744,7 @@ length = sampled_length
 
 #### Step 4: Loading and translating
 
-Finally, the inference script can be conclude with the code that restores variables and run the translation:
+Finally, the inference script can be concluded with the code that restores variables and run the translation:
 
 ```python
 from opennmt.utils.misc import print_bytes
