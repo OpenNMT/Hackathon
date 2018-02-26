@@ -31,7 +31,7 @@ export PYTHONPATH=$PWD/OpenNMT-tf:$PYTHONPATH
 The data are available at:
 
 * [`unsupervised-nmt-enfr.tar.bz2`](https://s3.amazonaws.com/opennmt-trainingdata/unsupervised-nmt-enfr.tar.bz2) (2.2 GB)
-* [`unsupervised-nmt-enfr-dev.tar.bz2`](https://s3.amazonaws.com/opennmt-trainingdata/unsupervised-nmt-enfr-dev.tar.bz2) (2.2 MB)
+* [`unsupervised-nmt-enfr-dev.tar.bz2`](https://s3.amazonaws.com/opennmt-trainingdata/unsupervised-nmt-enfr-dev.tar.bz2) (2.4 MB)
 
 To get started, we recommend downloading the `dev` version which contains a small training set with 10K sentences.
 
@@ -46,6 +46,8 @@ For this tutorial, the following resources might come handy:
 * [TensorFlow documentation](https://www.tensorflow.org/api_docs/python/)
 * [OpenNMT-tf documentation](http://opennmt.net/OpenNMT-tf/package/opennmt.html)
 * [Numpy documentation](https://docs.scipy.org/doc/numpy/reference/index.html)
+
+and of course the research paper linked above.
 
 ### Training
 
@@ -742,3 +744,37 @@ with tf.train.MonitoredSession(session_creator=session_creator) as sess:
       pred_sent = b" ".join(pred_toks)
       print_bytes(pred_sent)
 ```
+
+### Complete training flow
+
+Using the training and inference scripts, you can now write the complete training algorithm described in *Section 3.1*.
+
+See for example the shell script `ref/train.sh` that can be run on the full data package:
+
+```bash
+# Download data.
+mkdir data && cd data
+wget https://s3.amazonaws.com/opennmt-trainingdata/unsupervised-nmt-enfr.tar.bz2
+tar xf unsupervised-nmt-enfr.tar.bz2
+cd ..
+
+# Download multi-bleu.perl.
+wget https://raw.githubusercontent.com/moses-smt/mosesdecoder/master/scripts/generic/multi-bleu.perl
+
+# Train algorithm.
+./ref/train.sh
+```
+
+Here are some results (reporting BLEU score on tokenized *newstest2014* translation):
+
+| Iteration | ENFR | FREN |
+| --- | --- | --- |
+| M1 | 6.20 | 9.12 |
+| M2 | 13.02 | 10.73 |
+| M3 | 13.81 | 14.25 |
+
+where M1 is the unsupervised word-by-word translation model.
+
+---
+
+*Congratulations for completing the tutorial! Wether you implemented the functions on your own or went through the provided implementation, we hope that you learned new things on TensorFlow, OpenNMT-tf and unsupervised and adversarial training applied on MT.*
