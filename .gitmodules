@@ -1,0 +1,3 @@
+[submodule "unsupervised-nmt/OpenNMT-tf"]
+	path = unsupervised-nmt/OpenNMT-tf
+	url = https://github.com/OpenNMT/OpenNMT-tf.git
