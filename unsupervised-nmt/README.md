@@ -2,7 +2,7 @@
 
 # Unsupervised NMT with TensorFlow and OpenNMT-tf
 
-We propose you to implement [*Unsupervised Machine Translation Using Monolingual Corpora Only*](https://arxiv.org/abs/1711.00043) (G. Lample et al. 2017) using [TensorFlow](https://www.tensorflow.org/) and [OpenNMT-tf](https://github.com/OpenNMT/OpenNMT-tf). While the project might take more than one day to complete, the goal of this session is to:
+We propose you to implement the paper [*Unsupervised Machine Translation Using Monolingual Corpora Only*](https://arxiv.org/abs/1711.00043) (G. Lample et al. 2017) using [TensorFlow](https://www.tensorflow.org/) and [OpenNMT-tf](https://github.com/OpenNMT/OpenNMT-tf). While the project might take more than one day to complete, the goal of this session is to:
 
 * dive into an interesting research paper applying adversarial training to NMT;
 * learn about some TensorFlow mechanics;
@@ -251,7 +251,8 @@ def add_noise(ids, sequence_length):
   noisy_ids, noisy_sequence_length = tf.map_fn(
       lambda x: tf.py_func(_add_noise_single, x, [ids.dtype, tf.int32]),
       [ids, sequence_length],
-      dtype=[ids.dtype, tf.int32])
+      dtype=[ids.dtype, tf.int32],
+      back_prop=False)
 
   noisy_ids.set_shape(ids.get_shape())
   noisy_sequence_length.set_shape(sequence_length.get_shape())

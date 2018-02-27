@@ -168,7 +168,8 @@ def add_noise(ids, sequence_length):
   noisy_ids, noisy_sequence_length = tf.map_fn(
       lambda x: tf.py_func(_add_noise_single, x, [ids.dtype, tf.int32]),
       [ids, sequence_length],
-      dtype=[ids.dtype, tf.int32])
+      dtype=[ids.dtype, tf.int32],
+      back_prop=False)
 
   noisy_ids.set_shape(ids.get_shape())
   noisy_sequence_length.set_shape(sequence_length.get_shape())
