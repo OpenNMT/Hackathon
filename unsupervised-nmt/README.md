@@ -263,7 +263,7 @@ First you should add new command line arguments to accept pretrained word embedd
 
 ```python
 parser.add_argument("--src_emb", default=None, help="Source embedding.")
-parser.add_argument("--tgt_emb", default=None, help="Target embdding.")
+parser.add_argument("--tgt_emb", default=None, help="Target embedding.")
 ```
 
 Then, here is the code to load or create the embedding [`tf.Variable`](https://www.tensorflow.org/api_docs/python/tf/Variable):

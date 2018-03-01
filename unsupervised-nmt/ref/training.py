@@ -21,7 +21,7 @@ parser.add_argument("--tgt_vocab", required=True, help="Target vocabulary.")
 
 ## Step 3
 parser.add_argument("--src_emb", default=None, help="Source embedding.")
-parser.add_argument("--tgt_emb", default=None, help="Target embdding.")
+parser.add_argument("--tgt_emb", default=None, help="Target embedding.")
 
 args = parser.parse_args()
 
