@@ -788,4 +788,4 @@ where M1 is the unsupervised word-by-word translation model.
 
 ---
 
-*Congratulations for completing the tutorial! Wether you implemented the functions on your own or went through the provided implementation, we hope that you learned new things on TensorFlow, OpenNMT-tf and unsupervised and adversarial training applied on MT.*
+*Congratulations for completing the tutorial! Wether you implemented the functions on your own or went through the provided implementation, we hope that you learned new things on TensorFlow, OpenNMT-tf and adversarial training applied to unsupervised MT.*
