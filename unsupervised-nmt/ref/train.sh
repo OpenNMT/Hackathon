@@ -1,21 +1,22 @@
 #! /bin/sh
 
 model_dir=unsupervised-nmt-enfr
+data_dir=data/unsupervised-nmt-enfr
 
-src_vocab=data/unsupervised-nmt-enfr/en-vocab.txt
-tgt_vocab=data/unsupervised-nmt-enfr/fr-vocab.txt
-src_emb=data/unsupervised-nmt-enfr/wmt14m.en300.vec
-tgt_emb=data/unsupervised-nmt-enfr/wmt14m.fr300.vec
+src_vocab=${data_dir}/en-vocab.txt
+tgt_vocab=${data_dir}/fr-vocab.txt
+src_emb=${data_dir}/wmt14m.en300.vec
+tgt_emb=${data_dir}/wmt14m.fr300.vec
 
-src=data/unsupervised-nmt-enfr/train.en
-tgt=data/unsupervised-nmt-enfr/train.fr
-src_trans=data/unsupervised-nmt-enfr/train.en.m1
-tgt_trans=data/unsupervised-nmt-enfr/train.fr.m1
+src=${data_dir}/train.en
+tgt=${data_dir}/train.fr
+src_trans=${data_dir}/train.en.m1
+tgt_trans=${data_dir}/train.fr.m1
 
-src_test=data/unsupervised-nmt-enfr/newstest2014.en.tok
-tgt_test=data/unsupervised-nmt-enfr/newstest2014.fr.tok
-src_test_trans=data/unsupervised-nmt-enfr/newstest2014.en.tok.m1
-tgt_test_trans=data/unsupervised-nmt-enfr/newstest2014.fr.tok.m1
+src_test=${data_dir}/newstest2014.en.tok
+tgt_test=${data_dir}/newstest2014.fr.tok
+src_test_trans=${data_dir}/newstest2014.en.tok.m1
+tgt_test_trans=${data_dir}/newstest2014.fr.tok.m1
 
 timestamp=$(date +%s)
 score_file=scores-${timestamp}.txt
