@@ -90,8 +90,7 @@ import opennmt as onmt
 import numpy as np
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("--model_dir", default="model",
-                    help="Checkpoint directory.")
+parser.add_argument("--model_dir", default="model", help="Checkpoint directory.")
 args = parser.parse_args()
 ```
 
@@ -108,18 +107,12 @@ The required data are:
 Let's add the following command line options:
 
 ```python
-parser.add_argument("--src", required=True,
-                    help="Source file.")
-parser.add_argument("--tgt", required=True,
-                    help="Target file.")
-parser.add_argument("--src_trans", required=True,
-                    help="Source intermediate translation.")
-parser.add_argument("--tgt_trans", required=True,
-                    help="Target intermediate translation.")
-parser.add_argument("--src_vocab", required=True,
-                    help="Source vocabulary.")
-parser.add_argument("--tgt_vocab", required=True,
-                    help="Target vocabulary.")
+parser.add_argument("--src", required=True, help="Source file.")
+parser.add_argument("--tgt", required=True, help="Target file.")
+parser.add_argument("--src_trans", required=True, help="Source intermediate translation.")
+parser.add_argument("--tgt_trans", required=True, help="Target intermediate translation.")
+parser.add_argument("--src_vocab", required=True, help="Source vocabulary.")
+parser.add_argument("--tgt_vocab", required=True, help="Target vocabulary.")
 ```
 
 and then create the training iterators:
@@ -269,10 +262,8 @@ The paper uses pretrained embeddings to initialize the embeddings of the model. 
 First you should add new command line arguments to accept pretrained word embeddings:
 
 ```python
-parser.add_argument("--src_emb", default=None,
-                    help="Source embedding.")
-parser.add_argument("--tgt_emb", default=None,
-                    help="Target embdding.")
+parser.add_argument("--src_emb", default=None, help="Source embedding.")
+parser.add_argument("--tgt_emb", default=None, help="Target embdding.")
 ```
 
 Then, here is the code to load or create the embedding [`tf.Variable`](https://www.tensorflow.org/api_docs/python/tf/Variable):
@@ -602,8 +593,7 @@ import tensorflow as tf
 import opennmt as onmt
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("--model_dir", default="model",
-                    help="Checkpoint directory.")
+parser.add_argument("--model_dir", default="model", help="Checkpoint directory.")
 
 args = parser.parse_args()
 ```
@@ -613,14 +603,10 @@ args = parser.parse_args()
 Let's define the script interface by defining additional command line arguments:
 
 ```python
-parser.add_argument("--src", required=True,
-                    help="Source file.")
-parser.add_argument("--tgt", required=True,
-                    help="Target file.")
-parser.add_argument("--src_vocab", required=True,
-                    help="Source vocabulary.")
-parser.add_argument("--tgt_vocab", required=True,
-                    help="Target vocabulary.")
+parser.add_argument("--src", required=True, help="Source file.")
+parser.add_argument("--tgt", required=True, help="Target file.")
+parser.add_argument("--src_vocab", required=True, help="Source vocabulary.")
+parser.add_argument("--tgt_vocab", required=True, help="Target vocabulary.")
 parser.add_argument("--direction", required=True, type=int,
                     help="1 = translation source, 2 = translate target.")
 ```

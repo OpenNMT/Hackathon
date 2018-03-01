@@ -12,24 +12,16 @@ parser.add_argument("--model_dir", default="model",
                     help="Checkpoint directory.")
 
 ## Step 1
-parser.add_argument("--src", required=True,
-                    help="Source file.")
-parser.add_argument("--tgt", required=True,
-                    help="Target file.")
-parser.add_argument("--src_trans", required=True,
-                    help="Source intermediate translation.")
-parser.add_argument("--tgt_trans", required=True,
-                    help="Target intermediate translation.")
-parser.add_argument("--src_vocab", required=True,
-                    help="Source vocabulary.")
-parser.add_argument("--tgt_vocab", required=True,
-                    help="Target vocabulary.")
+parser.add_argument("--src", required=True, help="Source file.")
+parser.add_argument("--tgt", required=True, help="Target file.")
+parser.add_argument("--src_trans", required=True, help="Source intermediate translation.")
+parser.add_argument("--tgt_trans", required=True, help="Target intermediate translation.")
+parser.add_argument("--src_vocab", required=True, help="Source vocabulary.")
+parser.add_argument("--tgt_vocab", required=True, help="Target vocabulary.")
 
 ## Step 3
-parser.add_argument("--src_emb", default=None,
-                    help="Source embedding.")
-parser.add_argument("--tgt_emb", default=None,
-                    help="Target embdding.")
+parser.add_argument("--src_emb", default=None, help="Source embedding.")
+parser.add_argument("--tgt_emb", default=None, help="Target embdding.")
 
 args = parser.parse_args()
 
