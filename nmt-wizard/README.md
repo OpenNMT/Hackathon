@@ -335,7 +335,7 @@ python launcher.py del -k <taskid>
 ```
 
 There are also other alternative storages
-* S3: connecting to AWS server using access ID and secret key 
+* S3: connecting to AWS server using access ID and secret key
 * SSH: connecting to remote server hostname/IP via SSH
 
 ```
