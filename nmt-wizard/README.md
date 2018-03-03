@@ -49,7 +49,7 @@ $ src/redis-server
 
 And configure keyspace event handling in a new terminal:
 ```
-$ redis-cli config set notify-keyspace-events Klgx
+$ src/redis-cli config set notify-keyspace-events Klgx
 ```
 
 The Redis database contains the following fields:
@@ -205,7 +205,7 @@ Copy the following JSON into the `nmt-wizard/server/config/myserver.json`.
     "privateKey": "/home/{{YOURUSERNAME}}/.ssh/id_rsa",
     "docker": {
         "mount": [
-            "${TUTORIAL}/corpus/:/root/corpus/",
+            "${TUTORIAL}/data/:/root/corpus/",
             "${TUTORIAL}/models:/root/models",
             "${TUTORIAL}/tmp:/root/tmp"
         ]
@@ -275,8 +275,8 @@ Copy the following JSON into the `nmt-wizard/example/helloworld.json`.
             "rnn_size": "50",
             "word_vec_size": "20",
             "layers": "1",
-            "src_vocab": "${TUTORIAL}/vocab/helloworld.ruen.src.dict",
-            "tgt_vocab": "${TUTORIAL}/vocab/helloworld.ruen.tgt.dict"
+            "src_vocab": "${TUTORIAL}/data/vocab/helloworld.ruen.src.dict",
+            "tgt_vocab": "${TUTORIAL}/data/vocab/helloworld.ruen.tgt.dict"
         }
     }
 }
