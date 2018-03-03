@@ -370,7 +370,7 @@ encodings = tf.concat([
 sequence_lengths = tf.concat([output[2] for output in all_encoder_outputs], 0)
 
 with tf.variable_scope("discriminator"):
-  l_d, l_adv = discrimine(encodings, sequence_lengths, lang_ids)
+  l_d, l_adv = discriminator(encodings, sequence_lengths, lang_ids)
 
 
 # Step 7
@@ -380,9 +380,10 @@ lambda_auto = 1
 lambda_cd = 1
 lambda_adv = 1
 
-l_final = (lambda_auto * (l_auto_src + l_auto_tgt)
-           + lambda_cd * (l_cd_src + l_cd_tgt)
-           + lambda_adv * l_adv)
+l_auto = l_auto_src + l_auto_tgt
+l_cd = l_cd_src + l_cd_tgt
+
+l_final = (lambda_auto * l_auto + lambda_cd * l_cd + lambda_adv * l_adv)
 
 def build_train_op(global_step, encdec_variables, discri_variables):
   """Returns the training Op.

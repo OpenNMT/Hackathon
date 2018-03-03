@@ -501,7 +501,7 @@ encodings = tf.concat([
 sequence_lengths = tf.concat([output[2] for output in all_encoder_outputs], 0)
 
 with tf.variable_scope("discriminator"):
-  l_d, l_adv = discrimine(encodings, sequence_lengths, lang_ids)
+  l_d, l_adv = discriminator(encodings, sequence_lengths, lang_ids)
 ```
 
 #### Step 7: Optimization and training loop
@@ -513,9 +513,10 @@ lambda_auto = 1
 lambda_cd = 1
 lambda_adv = 1
 
-l_final = (lambda_auto * (l_auto_src + l_auto_tgt)
-           + lambda_cd * (l_cd_src + l_cd_tgt)
-           + lambda_adv * l_adv)
+l_auto = l_auto_src + l_auto_tgt
+l_cd = l_cd_src + l_cd_tgt
+
+l_final = (lambda_auto * l_auto + lambda_cd * l_cd + lambda_adv * l_adv)
 ```
 
 As described in *Section 4.4*, the training alternates "between one encoder-decoder and one discriminator update" and uses 2 different optimizers. You should implement this behavior in the `train_op` function:
