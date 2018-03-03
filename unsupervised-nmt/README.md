@@ -501,7 +501,7 @@ encodings = tf.concat([
 sequence_lengths = tf.concat([output[2] for output in all_encoder_outputs], 0)
 
 with tf.variable_scope("discriminator"):
-  l_d, l_adv = discrimine(encodings, sequence_lengths, lang_ids)
+  l_d, l_adv = discriminator(encodings, sequence_lengths, lang_ids)
 ```
 
 #### Step 7: Optimization and training loop
