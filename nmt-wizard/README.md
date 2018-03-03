@@ -374,24 +374,40 @@ export LAUNCHER_URL=http://stlauncher.opennmt.net
 explore the available services:
 
 ```
-python launcher.py ls
+$ python launcher.py ls
+SERVICE NAME            DESCRIPTION
+ec2                     Instance on AWS EC2
 ```
 
 describe the resource available on EC2:
 
 ```
-python launcher.py describe -s ec2
+$ python launcher.py describe -s ec2
+{"launchTemplateName": {"enum": ["CPU_C5_xlarge_50Gb", "GPU_G3_4xlarge_50Gb"], "type": "string", "description": "The name of the EC2 launch template to use", "title": "EC2 Launch Template"}}
 ```
 
-so let us be crazy and launch our task on ec2 using either a CPU or GPU instance. For that you need to change the path to the training data:
+There are 2 different resources configured on EC2 and available: `CPU_C5_xlarge_50Gb` and `GPU_G3_4xlarge_50Gb` - this is a JSON form to select `launchTemplateName`.
 
-The EC2 service is configure with a mount of S3 bucket - `nmt-wizard-data` on `${CORPUS_DIR}`.
+To select the resource, you need to pass a json file corresponding your choice:
+
+```
+$ cat > o.json
+{"launchTemplateName":"GPU_G3_4xlarge_50Gb"}
+```
+
+so let us be crazy and launch our task on ec2 using either a GPU instance.
+
+The EC2 service is configured with a mount of S3 bucket - `nmt-wizard-data` on `${CORPUS_DIR}`.
 
 The S3 bucket structure contains:
 * `ru_en` - which is the same than in the tutorial data
 * `wmt17/de_en` - containing all prepared DE EN data for WMT.
 
-with this information - can you launch the same transliteration training on EC2 GPU instance?
+with this information, modify the helloworld.json and you can launch the same transliteration training on EC2 GPU instance:
+
+```
+$ python launcher.py launch -s ec2 -o @o.json -i nmtwizard/opennmt-lua -- -ms launcher: -c @../example/helloworld.json train
+```
 
 ---
 
