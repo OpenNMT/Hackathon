@@ -14,8 +14,8 @@ parser.add_argument("--model_dir", default="model",
 ## Step 1
 parser.add_argument("--src", required=True, help="Source file.")
 parser.add_argument("--tgt", required=True, help="Target file.")
-parser.add_argument("--src_trans", required=True, help="Source intermediate translation.")
-parser.add_argument("--tgt_trans", required=True, help="Target intermediate translation.")
+parser.add_argument("--src_trans", required=True, help="Source translation at the previous iteration.")
+parser.add_argument("--tgt_trans", required=True, help="Target translation at the previous iteration.")
 parser.add_argument("--src_vocab", required=True, help="Source vocabulary.")
 parser.add_argument("--tgt_vocab", required=True, help="Target vocabulary.")
 
