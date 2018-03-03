@@ -11,7 +11,7 @@ Reference: [https://github.com/OpenNMT/nmt-wizard](https://github.com/OpenNMT/nm
 ## Server Configuration
 
 - minimal environment requested: `python`, `pip`, `build-essential` , `make`
-
+- please use python2.7
 ```
 $ sudo apt-get update
 $ sudo apt-get -y install python python-pip
@@ -95,7 +95,7 @@ $(lsb_release -cs) \
 stable"
 $ sudo apt-get update
 $ sudo apt-get install docker-ce
-$ sudo sudo usermod -aG docker {{YOURUSERNAME}}
+$ sudo usermod -aG docker {{YOURUSERNAME}}
 ```
 or
 for other OS please see [installation instructions here](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
@@ -221,6 +221,8 @@ Copy the following JSON into the `nmt-wizard/server/config/myserver.json`.
     }
 }
 ```
+Make sure to replace `${TUTORIAL}` by the absolute PATH and {{YOURUSERNAME}}.
+
 This is a simple configuration of your server.
 * `"gpus"` is set to off `[0]` since we're not using GPU in this tutorial
 * the log file will be saved under `${TUTORIAL}/inftraining_logs`, make sure this directory exsit
@@ -284,12 +286,13 @@ Copy the following JSON into the `nmt-wizard/example/helloworld.json`.
             "rnn_size": "50",
             "word_vec_size": "20",
             "layers": "1",
-            "src_vocab": "${TUTORIAL}/data/vocab/helloworld.ruen.src.dict",
-            "tgt_vocab": "${TUTORIAL}/data/vocab/helloworld.ruen.tgt.dict"
+            "src_vocab": "${CORPUS_DIR}/vocab/helloworld.ruen.src.dict",
+            "tgt_vocab": "${CORPUS_DIR}/vocab/helloworld.ruen.tgt.dict"
         }
     }
 }
 ```
+The ${CORPUS_DIR} is a local ENV, you don't need to change it.
 This is a configuration of simple transliteration training task, it has two parts: `data` and `options`
 * `data` part: the source language is `ru` and the target language is `en`, the corpus is picked from ${TUTORIAL}/corpus/`train_dir`/`path`/; the corpus which has extension `ru` \ `en` with pattern `helloworld.*` will be picked. Its coefficient is set to `1` in the total `10000` samples. see the [sampling documentation](https://github.com/OpenNMT/OpenNMT/blob/master/docs/training/sampling.md)
 * `options` part: the configuration of training, in this training, a local custom file `${TUTORIAL}/vocab/helloworld.ruen.src.dict` will be copied and used on the server.  see the [training option documentation](https://github.com/OpenNMT/OpenNMT/blob/master/docs/options/train.md)
@@ -312,10 +315,10 @@ python launcher.py lt
 ```
 python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -c @../example/helloworld.json train
 ```
-- `launch` `trans`： transliterate/translate `${TUTORIAL}/data/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
+- `launch` `trans`： transliterate/translate `/root/corpus/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
 
 ```
-python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i ${TUTORIAL}/data/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
+python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i /root/corpus/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
 ```
 - `file`： get file from transaltion task
 
