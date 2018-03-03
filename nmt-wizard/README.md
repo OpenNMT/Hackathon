@@ -391,6 +391,8 @@ The S3 bucket structure contains:
 * `ru_en` - which is the same than in the tutorial data
 * `wmt17/de_en` - containing all prepared DE EN data for WMT.
 
+with this information - can you launch the same transliteration training on EC2 GPU instance?
+
 ---
 
 *Congratulations for completing this Hello World tutorial!*
