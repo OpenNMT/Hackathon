@@ -361,6 +361,36 @@ There are also other alternative storages
         }
 ```
 
+## Using pre-configured launcher with EC2 credentials
+
+If you are here, you are ready to move to the next stage - let us try to launch the same task on an EC2 instance using pre-configured launcher.
+
+First configure access to the launcher:
+
+```
+export LAUNCHER_URL=http://stlauncher.opennmt.net
+```
+
+explore the available services:
+
+```
+python launcher.py ls
+```
+
+describe the resource available on EC2:
+
+```
+python launcher.py describe -s ec2
+```
+
+so let us be crazy and launch our task on ec2 using either a CPU or GPU instance. For that you need to change the path to the training data:
+
+The EC2 service is configure with a mount of S3 bucket - `nmt-wizard-data` on `${CORPUS_DIR}`.
+
+The S3 bucket structure contains:
+* `ru_en` - which is the same than in the tutorial data
+* `wmt17/de_en` - containing all prepared DE EN data for WMT.
+
 ---
 
 *Congratulations for completing this Hello World tutorial!*
