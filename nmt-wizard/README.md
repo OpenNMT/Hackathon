@@ -303,15 +303,15 @@ python launcher.py lt
 ```
 python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -c @../example/helloworld.json train
 ```
-- `launch` `trans`： transliterate/translate `${TUTORIAL}/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
+- `launch` `trans`： transliterate/translate `${TUTORIAL}/data/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
 
 ```
-python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i ${TUTORIAL}/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
+python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i ${TUTORIAL}/data/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
 ```
 - `file`： get file from transaltion task
 
 ```
-python launcher.py file -f helloworld.ruen.test.ru.out -k <taskid_2> > ${TUTORIAL}/test/helloworld.ruen.test.ru.out
+python launcher.py file -f helloworld.ruen.test.ru.out -k <taskid_2> > ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out
 ```
 - `terminate`：stop a running/queued task by its `taskid`
 
