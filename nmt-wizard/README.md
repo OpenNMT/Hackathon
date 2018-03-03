@@ -121,12 +121,21 @@ $ ssh-keygen
 ```
 command-line for local server
 ```
-$ cat /home/{{YOURUSERNAME}}/.ssh/id_rsa.pub >> /home/{{YOURUSERNAME}}/.ssh/authorized_keys
+$ cat ${HOME}/.ssh/id_rsa.pub >> ${HOME}/.ssh/authorized_keys
 ```
 
 ## Data preparation
 
 The data directory contains aligned space-tokenized russian-english names, training file and test file.
+
+You need to get it from the `hackathon/nmt-wizard` directory like that:
+
+```
+git clone https://github.com/OpenNMT/Hackathon.git
+```
+
+and copy the `nmt-wizard/data` directory into `{{TUTORIAL}}/`.
+
 
 ## Wizard Configuration
 
@@ -202,7 +211,7 @@ Copy the following JSON into the `nmt-wizard/server/config/myserver.json`.
             }
         ]
     },
-    "privateKey": "/home/{{YOURUSERNAME}}/.ssh/id_rsa",
+    "privateKey": "${HOME}/.ssh/id_rsa",
     "docker": {
         "mount": [
             "${TUTORIAL}/data/:/root/corpus/",
@@ -215,7 +224,7 @@ Copy the following JSON into the `nmt-wizard/server/config/myserver.json`.
 This is a simple configuration of your server.
 * `"gpus"` is set to off `[0]` since we're not using GPU in this tutorial
 * the log file will be saved under `${TUTORIAL}/inftraining_logs`, make sure this directory exsit
-* your SSH privateKey `/home/{{YOURUSERNAME}}/.ssh/id_rsa` will be used for connecting the server on which your publicKey  `/home/{{YOURUSERNAME}}/.ssh/id_rsa.pub` is authorized
+* your SSH privateKey `${HOME}/.ssh/id_rsa` will be used for connecting the server on which your publicKey  `${HOME}/.ssh/id_rsa.pub` is authorized
 * `${TUTORIAL}/corpus/` is your training corpus' directory on the local / remote server
 * `${TUTORIAL}/models` is the directory for saving the models of `train` task
 *  your custom files will be copied under `${TUTORIAL}/tmp`
