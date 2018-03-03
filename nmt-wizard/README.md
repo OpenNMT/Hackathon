@@ -41,15 +41,15 @@ $ cd ..
 $ make
 ```
 
-launch a server:
+launch a server (chdir to src directory if you installed by compiling):
 
 ```
-$ src/redis-server
+$ redis-server
 ```
 
 And configure keyspace event handling in a new terminal:
 ```
-$ src/redis-cli config set notify-keyspace-events Klgx
+$ redis-cli config set notify-keyspace-events Klgx
 ```
 
 The Redis database contains the following fields:
