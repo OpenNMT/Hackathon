@@ -246,7 +246,7 @@ In a new terminal:
 ```
 $ export TUTORIAL=${PWD}/tutorial-onmt-wizard-1
 $ cd ${TUTORIAL}
-$ cd nmt-wizart/server
+$ cd nmt-wizard/server
 $ python worker.py
 ```
 
