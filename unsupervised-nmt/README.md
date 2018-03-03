@@ -35,7 +35,7 @@ The guide is a step-by-step implementation with some functions left unimplemente
 ## Requirements
 
 * `git`
-* `python`
+* `python` > 2.7
 * `virtualenv`
 
 ```bash
