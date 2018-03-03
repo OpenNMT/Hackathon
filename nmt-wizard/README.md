@@ -77,7 +77,7 @@ $ virtualenv ${TUTORIAL}
 
 ```
 $ cd ${TUTORIAL}
-$ git clone https://github.com/OpenNMT/nmt-wizard.git .
+$ git clone https://github.com/OpenNMT/nmt-wizard.git
 ```
 
 - install docker
