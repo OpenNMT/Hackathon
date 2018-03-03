@@ -11,7 +11,7 @@ Reference: [https://github.com/OpenNMT/nmt-wizard](https://github.com/OpenNMT/nm
 ## Server Configuration
 
 - minimal environment requested: `python`, `pip`, `build-essential` , `make`
-
+- please use python2.7
 ```
 $ sudo apt-get update
 $ sudo apt-get -y install python python-pip
