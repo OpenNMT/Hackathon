@@ -1,4 +1,4 @@
-* Owner: Jean Senellart (jean.senellart (at) opennmt.net)*
+*Owner: Jean Senellart (jean.senellart (at) opennmt.net)*
 
 # NWT-Wizard Hello Word
 
@@ -126,13 +126,8 @@ $ cat /home/{{YOURUSERNAME}}/.ssh/id_rsa.pub >> /home/{{YOURUSERNAME}}/.ssh/auth
 
 ## Data preparation
 
-```
-$ cd ${TUTORIAL}
-$ wget https://s3-eu-west-1.amazonaws.com/nmt-wizard-data/wmt17/data.zip
-$ sudo apt-get -y install unzip
-$ unzip data.zip -d ${TUTORIAL}
-$ rm -fr __MACOSX/ data.zip
-```
+The data directory contains aligned space-tokenized russian-english names, training file and test file.
+
 ## Wizard Configuration
 
 ### Service configuration
