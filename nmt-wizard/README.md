@@ -409,7 +409,7 @@ The S3 bucket structure contains:
 with this information, modify the helloworld.json and you can launch the same transliteration training on EC2 GPU instance:
 
 ```
-$ python launcher.py launch -s ec2 -o @o.json -i nmtwizard/opennmt-lua -- -ms launcher: -c @../example/helloworld.json train
+$ python launcher.py launch -s ec2 -o @o.json -i nmtwizard/opennmt-lua -- -ms s3_models: -c @../example/helloworld.json train
 ```
 
 ---
