@@ -167,6 +167,7 @@ def load_data(input_file,
   input_dataset = _make_dataset(input_file, input_vocab)
   translated_dataset = _make_dataset(translated_file, translated_vocab)
   dataset = tf.data.Dataset.zip((input_dataset, translated_dataset))
+  dataset = dataset.shuffle(200000)
 
   # Define the input format.
   dataset = dataset.map(lambda x, y: {
@@ -193,9 +194,8 @@ tgt_vocab, tgt_vocab_size = load_vocab(args.tgt_vocab)
 with tf.device("/cpu:0"):  # Input pipeline should always be place on the CPU.
   src_iterator = load_data(args.src, args.src_trans, src_vocab, tgt_vocab)
   tgt_iterator = load_data(args.tgt, args.tgt_trans, tgt_vocab, src_vocab)
-
-src = src_iterator.get_next()
-tgt = tgt_iterator.get_next()
+  src = src_iterator.get_next()
+  tgt = tgt_iterator.get_next()
 ```
 
 Here we use the bucketing strategy to make sure batches contain sequences of similar length which reduces the amount of padding and makes the training more efficient. For large training sets, we could also use the hard constraint of only batching sentences of the same length.

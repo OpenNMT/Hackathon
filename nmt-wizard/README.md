@@ -11,7 +11,7 @@ Reference: [https://github.com/OpenNMT/nmt-wizard](https://github.com/OpenNMT/nm
 ## Server Configuration
 
 - minimal environment requested: `python`, `pip`, `build-essential` , `make`
-
+- please use python2.7
 ```
 $ sudo apt-get update
 $ sudo apt-get -y install python python-pip
@@ -95,7 +95,7 @@ $(lsb_release -cs) \
 stable"
 $ sudo apt-get update
 $ sudo apt-get install docker-ce
-$ sudo sudo usermod -aG docker {{YOURUSERNAME}}
+$ sudo usermod -aG docker {{YOURUSERNAME}}
 ```
 or
 for other OS please see [installation instructions here](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
@@ -221,6 +221,8 @@ Copy the following JSON into the `nmt-wizard/server/config/myserver.json`.
     }
 }
 ```
+Make sure to replace `${TUTORIAL}` by the absolute PATH and {{YOURUSERNAME}}.
+
 This is a simple configuration of your server.
 * `"gpus"` is set to off `[0]` since we're not using GPU in this tutorial
 * the log file will be saved under `${TUTORIAL}/inftraining_logs`, make sure this directory exsit
@@ -284,12 +286,13 @@ Copy the following JSON into the `nmt-wizard/example/helloworld.json`.
             "rnn_size": "50",
             "word_vec_size": "20",
             "layers": "1",
-            "src_vocab": "${TUTORIAL}/data/vocab/helloworld.ruen.src.dict",
-            "tgt_vocab": "${TUTORIAL}/data/vocab/helloworld.ruen.tgt.dict"
+            "src_vocab": "${CORPUS_DIR}/vocab/helloworld.ruen.src.dict",
+            "tgt_vocab": "${CORPUS_DIR}/vocab/helloworld.ruen.tgt.dict"
         }
     }
 }
 ```
+The ${CORPUS_DIR} is a local ENV, you don't need to change it.
 This is a configuration of simple transliteration training task, it has two parts: `data` and `options`
 * `data` part: the source language is `ru` and the target language is `en`, the corpus is picked from ${TUTORIAL}/corpus/`train_dir`/`path`/; the corpus which has extension `ru` \ `en` with pattern `helloworld.*` will be picked. Its coefficient is set to `1` in the total `10000` samples. see the [sampling documentation](https://github.com/OpenNMT/OpenNMT/blob/master/docs/training/sampling.md)
 * `options` part: the configuration of training, in this training, a local custom file `${TUTORIAL}/vocab/helloworld.ruen.src.dict` will be copied and used on the server.  see the [training option documentation](https://github.com/OpenNMT/OpenNMT/blob/master/docs/options/train.md)
@@ -312,10 +315,10 @@ python launcher.py lt
 ```
 python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -c @../example/helloworld.json train
 ```
-- `launch` `trans`： transliterate/translate `${TUTORIAL}/data/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
+- `launch` `trans`： transliterate/translate `/root/corpus/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
 
 ```
-python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i ${TUTORIAL}/data/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
+python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i /root/corpus/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
 ```
 - `file`： get file from transaltion task
 
@@ -374,22 +377,40 @@ export LAUNCHER_URL=http://stlauncher.opennmt.net
 explore the available services:
 
 ```
-python launcher.py ls
+$ python launcher.py ls
+SERVICE NAME            DESCRIPTION
+ec2                     Instance on AWS EC2
 ```
 
 describe the resource available on EC2:
 
 ```
-python launcher.py describe -s ec2
+$ python launcher.py describe -s ec2
+{"launchTemplateName": {"enum": ["CPU_C5_xlarge_50Gb", "GPU_G3_4xlarge_50Gb"], "type": "string", "description": "The name of the EC2 launch template to use", "title": "EC2 Launch Template"}}
 ```
 
-so let us be crazy and launch our task on ec2 using either a CPU or GPU instance. For that you need to change the path to the training data:
+There are 2 different resources configured on EC2 and available: `CPU_C5_xlarge_50Gb` and `GPU_G3_4xlarge_50Gb` - this is a JSON form to select `launchTemplateName`.
 
-The EC2 service is configure with a mount of S3 bucket - `nmt-wizard-data` on `${CORPUS_DIR}`.
+To select the resource, you need to pass a json file corresponding your choice:
+
+```
+$ cat > o.json
+{"launchTemplateName":"GPU_G3_4xlarge_50Gb"}
+```
+
+so let us be crazy and launch our task on ec2 using either a GPU instance.
+
+The EC2 service is configured with a mount of S3 bucket - `nmt-wizard-data` on `${CORPUS_DIR}`.
 
 The S3 bucket structure contains:
 * `ru_en` - which is the same than in the tutorial data
 * `wmt17/de_en` - containing all prepared DE EN data for WMT.
+
+with this information, modify the helloworld.json and you can launch the same transliteration training on EC2 GPU instance:
+
+```
+$ python launcher.py launch -s ec2 -o @o.json -i nmtwizard/opennmt-lua -- -ms s3_models: -c @../example/helloworld.json train
+```
 
 ---
 
