@@ -215,7 +215,6 @@ Copy the following JSON into the `nmt-wizard/server/config/myserver.json`.
     "docker": {
         "mount": [
             "${TUTORIAL}/data/:/root/corpus/",
-            "${TUTORIAL}/models:/root/models",
             "${TUTORIAL}/tmp:/root/tmp"
         ]
     }
@@ -313,12 +312,12 @@ python launcher.py lt
 - `launch` `train`： start training task, the return is a task id `taskid_1`
 
 ```
-python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -c @../example/helloworld.json train
+python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms /root/tmp/ -c @../example/helloworld.json train
 ```
 - `launch` `trans`： transliterate/translate `/root/corpus/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
 
 ```
-python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i /root/corpus/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
+python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms /root/tmp/ -m <taskid_1> trans -i /root/corpus/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
 ```
 - `file`： get file from transaltion task
 
@@ -334,11 +333,6 @@ python launcher.py terminate -k <taskid>
 
 ```
 python launcher.py status -k <taskid>
-```
-- `del`：delete a running/queued task by its `taskid`
-
-```
-python launcher.py del -k <taskid>
 ```
 
 There are also other alternative storages
