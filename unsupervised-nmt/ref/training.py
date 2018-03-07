@@ -401,12 +401,12 @@ def build_train_op(global_step, encdec_variables, discri_variables):
   """
   encdec_opt = tf.train.AdamOptimizer(learning_rate=0.0003, beta1=0.5)
   discri_opt = tf.train.RMSPropOptimizer(0.0005)
+  encdec_gradients = encdec_opt.compute_gradients(l_final, var_list=encdec_variables)
+  discri_gradients = discri_opt.compute_gradients(l_d, var_list=discri_variables)
   return tf.cond(
       tf.equal(tf.mod(global_step, 2), 0),
-      true_fn=lambda: encdec_opt.minimize(
-          l_final, global_step=global_step, var_list=encdec_variables),
-      false_fn=lambda: discri_opt.minimize(
-          l_d, global_step=global_step, var_list=discri_variables))
+      true_fn=lambda: encdec_opt.apply_gradients(encdec_gradients, global_step=global_step),
+      false_fn=lambda: discri_opt.apply_gradients(discri_gradients, global_step=global_step))
 
 encdec_variables = []
 discri_variables = []
