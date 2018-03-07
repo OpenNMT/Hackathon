@@ -44,7 +44,7 @@ cd Hackathon/unsupervised-nmt
 mkdir env
 virtualenv env
 source env/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt.cpu
 export PYTHONPATH=$PWD/OpenNMT-tf:$PYTHONPATH
 ```
 
