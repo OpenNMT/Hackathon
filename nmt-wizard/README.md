@@ -1,6 +1,6 @@
 *Owner: Jean Senellart (jean.senellart (at) opennmt.net)*
 
-# NWT-Wizard Hello Word
+# NMT-Wizard Hello Word
 
 ## Introduction
 
