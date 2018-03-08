@@ -1,6 +1,6 @@
 *Owner: Jean Senellart (jean.senellart (at) opennmt.net)*
 
-# NWT-Wizard Hello Word
+# NMT-Wizard Hello Word
 
 ## Introduction
 
@@ -12,6 +12,7 @@ Reference: [https://github.com/OpenNMT/nmt-wizard](https://github.com/OpenNMT/nm
 
 - minimal environment requested: `python`, `pip`, `build-essential` , `make`
 - please use python2.7
+
 ```
 $ sudo apt-get update
 $ sudo apt-get -y install python python-pip
@@ -215,7 +216,6 @@ Copy the following JSON into the `nmt-wizard/server/config/myserver.json`.
     "docker": {
         "mount": [
             "${TUTORIAL}/data/:/root/corpus/",
-            "${TUTORIAL}/models:/root/models",
             "${TUTORIAL}/tmp:/root/tmp"
         ]
     }
@@ -300,45 +300,64 @@ This is a configuration of simple transliteration training task, it has two part
 
 go through the different commands:
 
+```
+$ cd nmt-wizard/client
+```
+
+
 - `ls`： returns available services
 
 ```
-python launcher.py ls
+$ python launcher.py ls
 ```
 - `lt`： returns the list of tasks in the database
 
 ```
-python launcher.py lt
+$ python launcher.py lt
 ```
 - `launch` `train`： start training task, the return is a task id `taskid_1`
 
 ```
-python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -c @../example/helloworld.json train
+$ python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms /root/tmp/ -c @../example/helloworld.json train
 ```
 - `launch` `trans`： transliterate/translate `/root/corpus/test/helloworld.ruen.test.ru` by using the model of `taskid_1`, the return is a task id `taskid_2`
 
 ```
-python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms launcher: -m <taskid_1> trans -i /root/corpus/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
+$ python launcher.py launch -s myserver -i nmtwizard/opennmt-lua -- -ms /root/tmp/ -m <taskid_1> trans -i /root/corpus/test/helloworld.ruen.test.ru -o "launcher:helloworld.ruen.test.ru.out"
 ```
 - `file`： get file from transaltion task
 
 ```
-python launcher.py file -f helloworld.ruen.test.ru.out -k <taskid_2> > ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out
+$ python launcher.py file -f helloworld.ruen.test.ru.out -k <taskid_2> > ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out
 ```
 - `terminate`：stop a running/queued task by its `taskid`
 
 ```
-python launcher.py terminate -k <taskid>
+$ python launcher.py terminate -k <taskid>
 ```
 - `status`：checks the status of a task by its `taskid`
 
 ```
-python launcher.py status -k <taskid>
+$ python launcher.py status -k <taskid>
 ```
-- `del`：delete a running/queued task by its `taskid`
+evaluation:
+check if there're log information in the head of output file, please remove log and ending empty line
 
 ```
-python launcher.py del -k <taskid>
+$ tail -n +3 ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out | head -n -1 > ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out.tmp
+$ mv ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out.tmp ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out
+```
+then
+
+```
+$ cd ${TUTORIAL}
+$ git clone https://github.com/OpenNMT/nmt-benchmark.git
+$ perl nmt-benchmark/scripts/multi-bleu.perl ${TUTORIAL}/data/test/helloworld.ruen.test.en < ${TUTORIAL}/data/test/helloworld.ruen.test.ru.out
+```
+a BLEU score will be shown
+
+```
+BLEU = 70.27 +/- 0.44, 88.5/78.0/69.4/62.1 (BP=0.952, ratio=0.953, hyp_len=6164, ref_len=6469)
 ```
 
 There are also other alternative storages
