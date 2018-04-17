@@ -39,13 +39,12 @@ The guide is a step-by-step implementation with some functions left unimplemente
 * `virtualenv`
 
 ```bash
-git clone --recursive https://github.com/OpenNMT/Hackathon.git
+git clone https://github.com/OpenNMT/Hackathon.git
 cd Hackathon/unsupervised-nmt
 mkdir env
 virtualenv env
 source env/bin/activate
 pip install -r requirements.txt.cpu
-export PYTHONPATH=$PWD/OpenNMT-tf:$PYTHONPATH
 ```
 
 ## Data
@@ -66,7 +65,7 @@ Both packages contain the vocabulary files and a first translation of the traini
 For this tutorial, the following resources might come handy:
 
 * [TensorFlow documentation](https://www.tensorflow.org/api_docs/python/)
-* [OpenNMT-tf documentation](http://opennmt.net/OpenNMT-tf/package/opennmt.html)
+* [OpenNMT-tf documentation](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.html)
 * [Numpy documentation](https://docs.scipy.org/doc/numpy/reference/index.html)
 
 and of course the research paper linked above.
@@ -257,7 +256,7 @@ The wrapper uses [`tf.py_func`](https://www.tensorflow.org/api_docs/python/tf/py
 
 #### Step 3: Creating embeddings
 
-The paper uses pretrained embeddings to initialize the embeddings of the model. Pretrained emnbeddings are included in the full data package (see above) and can be easily loaded with the [`load_pretrained_embeddings`](http://opennmt.net/OpenNMT-tf/package/opennmt.inputters.text_inputter.html#opennmt.inputters.text_inputter.load_pretrained_embeddings) function from OpenNMT-tf.
+The paper uses pretrained embeddings to initialize the embeddings of the model. Pretrained emnbeddings are included in the full data package (see above) and can be easily loaded with the [`load_pretrained_embeddings`](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.inputters.text_inputter.html#opennmt.inputters.text_inputter.load_pretrained_embeddings) function from OpenNMT-tf.
 
 First you should add new command line arguments to accept pretrained word embeddings:
 
@@ -308,7 +307,7 @@ with tf.variable_scope("tgt"):
 
 #### Step 4: Encoding noisy inputs
 
-The encoding uses a standard bidirectional LSTM encoder as described in *Section 2.1*. Hopefully, OpenNMT-tf exposes [several encoders](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.html) that can be used with a simple interface.
+The encoding uses a standard bidirectional LSTM encoder as described in *Section 2.1*. Hopefully, OpenNMT-tf exposes [several encoders](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.encoders.html) that can be used with a simple interface.
 
 First, create a new encoder instance:
 
@@ -340,7 +339,7 @@ def add_noise_and_encode(ids, sequence_length, embedding, reuse=None):
 
 * [`tf.nn.embedding_lookup`](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
 * [`tf.variable_scope`](https://www.tensorflow.org/api_docs/python/tf/variable_scope)
-* [`onmt.encoders.Encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
+* [`onmt.encoders.Encoder.encode`](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
 
 At this point, you have everything you need to implement to encoding part showed in *Figure 2*:
 
@@ -394,8 +393,8 @@ def denoise(x, embedding, encoder_outputs, generator, reuse=None):
 
 * [`tf.nn.embedding_lookup`](https://www.tensorflow.org/api_docs/python/tf/nn/embedding_lookup)
 * [`tf.variable_scope`](https://www.tensorflow.org/api_docs/python/tf/variable_scope)
-* [`cross_entropy_sequence_loss`](http://opennmt.net/OpenNMT-tf/package/opennmt.utils.losses.html#opennmt.utils.losses.cross_entropy_sequence_loss)
-* [`onmt.decoders.Decoder.decode`](http://opennmt.net/OpenNMT-tf/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.decode)
+* [`cross_entropy_sequence_loss`](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.utils.losses.html#opennmt.utils.losses.cross_entropy_sequence_loss)
+* [`onmt.decoders.Decoder.decode`](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.decode)
 
 and build the `generator` for source and target:
 
@@ -712,8 +711,8 @@ def decode(encoder_output):
 
 **Related resources:**
 
-* [`onmt.encoders.Encoder.encode`](http://opennmt.net/OpenNMT-tf/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
-* [`onmt.decoders.Decoder.dynamic_decode_and_search`](http://opennmt.net/OpenNMT-tf/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.dynamic_decode_and_search)
+* [`onmt.encoders.Encoder.encode`](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.encoders.encoder.html#opennmt.encoders.encoder.Encoder.encode)
+* [`onmt.decoders.Decoder.dynamic_decode_and_search`](http://opennmt.net/OpenNMT-tf/v1.1.0/package/opennmt.decoders.decoder.html#opennmt.decoders.decoder.Decoder.dynamic_decode_and_search)
 
 These functions can then be called like this to build the actual translation:
 

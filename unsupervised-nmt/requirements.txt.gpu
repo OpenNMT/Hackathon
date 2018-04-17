@@ -1,2 +1,1 @@
-tensorflow-gpu==1.4.1
-pyyaml
+OpenNMT-tf[tensorflow_gpu]==1.1.0
