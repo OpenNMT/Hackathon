@@ -35,13 +35,12 @@ The guide is a step-by-step implementation with some functions left unimplemente
 ## Requirements
 
 * `git`
-* `python` > 2.7
+* `python` >= 2.7
 * `virtualenv`
 
 ```bash
 git clone https://github.com/OpenNMT/Hackathon.git
 cd Hackathon/unsupervised-nmt
-mkdir env
 virtualenv env
 source env/bin/activate
 pip install -r requirements.txt.cpu
