@@ -1,4 +1,4 @@
-*Owner: Guillaume Klein (guillaume.klein (at) opennmt.net)*
+*Owner: Guillaume Klein (guillaume.klein (at) systrangroup.com)*
 
 # Unsupervised NMT with TensorFlow and OpenNMT-tf
 
